@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Академія Бізнесу — Калькулятор Логікоїнів</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Canvas Confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <!-- Google Fonts: Comfortaa & Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@500;700&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        heading: ['Comfortaa', 'cursive'],
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'soft': '0 10px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.04)',
+                        'glow': '0 0 25px rgba(124, 58, 237, 0.3)',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #eff6ff 0%, #f3e8ff 50%, #fcf5ff 100%);
+            min-height: 100vh;
+        }
+        .heading-font {
+            font-family: 'Comfortaa', cursive;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(12px);
+            border: 2px solid rgba(255, 255, 255, 0.8);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #c7d2fe;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="text-slate-800 p-3 sm:p-6 md:p-8 custom-scrollbar">
+
+    <div class="max-w-7xl mx-auto space-y-6">
+
+        <!-- HEADER BANNER -->
+        <header class="glass-card rounded-3xl p-5 sm:p-7 text-center shadow-soft relative overflow-hidden border-4 border-yellow-300">
+            <div class="absolute -right-8 -top-8 w-36 h-36 bg-yellow-200 rounded-full blur-2xl opacity-60"></div>
+            <div class="absolute -left-8 -bottom-8 w-36 h-36 bg-purple-300 rounded-full blur-2xl opacity-60"></div>
+
+            <div class="inline-flex items-center gap-2 bg-gradient-to-r from-yellow-400 to-amber-500 text-white font-black px-4 py-1.5 rounded-full text-xs sm:text-sm uppercase tracking-wider mb-2 shadow-md">
+                🪙 Академія Бізнесу
+            </div>
+
+            <h1 class="heading-font text-3xl sm:text-4xl md:text-5xl font-extrabold text-indigo-700 mb-2 flex items-center justify-center gap-2 flex-wrap">
+                💰 Калькулятор Логікоїнів 🚀
+            </h1>
+            <p class="text-slate-600 text-sm sm:text-base font-medium max-w-2xl mx-auto">
+                Обчисли свій прибуток та перевір касу легко й весело!
+            </p>
+        </header>
+
+        <!-- INSTRUCTION & REFERENCE GUIDE SECTION (з надісланого прикладу) -->
+        <details class="glass-card rounded-3xl shadow-soft overflow-hidden group border border-purple-200">
+            <summary class="p-4 sm:p-5 font-bold cursor-pointer flex items-center justify-between text-indigo-900 hover:bg-purple-50/50 transition select-none">
+                <span class="flex items-center gap-2 text-base sm:text-lg heading-font">
+                    <span class="p-2 bg-yellow-400 text-white rounded-xl text-sm">💡</span> 
+                    Інструкція: Що вводимо та що рахує калькулятор?
+                </span>
+                <span class="text-xs bg-purple-100 text-purple-700 font-bold px-3 py-1 rounded-full group-open:rotate-180 transition-transform">
+                    ▼ Натисніть для підказки
+                </span>
+            </summary>
+
+            <div class="p-4 sm:p-6 border-t border-purple-100 bg-white/60 space-y-6 text-sm">
+                <!-- Table of inputs -->
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="border-b-2 border-slate-200 text-slate-700 font-bold">
+                                <th class="py-2.5 px-3">Що вводимо?</th>
+                                <th class="py-2.5 px-3">Що це означає?</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-100 text-slate-600">
+                            <tr>
+                                <td class="py-2.5 px-3 font-semibold text-slate-800">🏢 Назва команди</td>
+                                <td class="py-2.5 px-3">Як називається ваша компанія?</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2.5 px-3 font-semibold text-slate-800">💰 Стартові гроші</td>
+                                <td class="py-2.5 px-3">Ваші перші 1000 логікоїнів</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2.5 px-3 font-semibold text-slate-800">🤝 Додаткові гроші</td>
+                                <td class="py-2.5 px-3">Скільки грошей ви отримали від інвесторів</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2.5 px-3 font-semibold text-slate-800">📈 Заробіток</td>
+                                <td class="py-2.5 px-3">Скільки логікоїнів ви заробили за три раунди</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2.5 px-3 font-semibold text-slate-800">💸 Витрати</td>
+                                <td class="py-2.5 px-3">Скільки грошей пішло на запуск бізнесу, замовлення, рекламу та інші потреби</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2.5 px-3 font-semibold text-slate-800">🔙 Повернення інвестору</td>
+                                <td class="py-2.5 px-3">Скільки грошей потрібно віддати інвестору</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2.5 px-3 font-semibold text-slate-800">📦 Виконані замовлення</td>
+                                <td class="py-2.5 px-3">Скільки замовлень ваша команда виконала</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2.5 px-3 font-semibold text-slate-800">🏦 Гроші наприкінці гри</td>
+                                <td class="py-2.5 px-3">Скільки логікоїнів залишилося у вас у кінці</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Calculation rules list -->
+                <div class="bg-indigo-50/80 p-4 rounded-2xl border border-indigo-100 space-y-2">
+                    <h4 class="font-bold text-indigo-900 flex items-center gap-2 text-base">
+                        🧠 А тепер калькулятор усе порахує!
+                    </h4>
+                    <ul class="space-y-1.5 text-slate-700">
+                        <li class="flex items-start gap-2">
+                            <span>💵</span>
+                            <span><b>Ваш чистий прибуток</b> — скільки грошей ви заробили, коли відняли всі витрати.</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span>🚀</span>
+                            <span><b>Ефективність бізнесу</b> — наскільки добре вам вдалося використати стартові 1000 логікоїнів.</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span>🏦</span>
+                            <span><b>Залишок грошей</b> — скільки логікоїнів залишилося у вашій команді.</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span>📊</span>
+                            <span><b>Зростання капіталу</b> — наскільки більше або менше грошей у вас стало порівняно зі стартом.</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </details>
+
+        <!-- TOP CONTROLS & DEMO BUTTON -->
+        <div class="flex flex-col sm:flex-row justify-between items-center gap-3">
+            <div class="flex items-center gap-2">
+                <span class="font-bold text-slate-700 text-sm">Кількість команд:</span>
+                <select id="teamCountSelect" onchange="changeTeamCount(this.value)" class="bg-white border-2 border-purple-300 font-bold rounded-xl px-3 py-1.5 text-indigo-700 focus:outline-none">
+                    <option value="2">2 Команди</option>
+                    <option value="3" selected>3 Команди</option>
+                    <option value="4">4 Команди</option>
+                </select>
+            </div>
+            <button onclick="fillDemoData()" class="w-full sm:w-auto bg-amber-400 hover:bg-amber-500 text-slate-900 font-bold px-4 py-2 rounded-xl transition shadow-sm flex items-center justify-center gap-2 active:scale-95 text-xs sm:text-sm">
+                <span>✨</span> Заповнити тестовими даними
+            </button>
+        </div>
+
+        <!-- MAIN TEAMS INPUT GRID -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6" id="teamsContainer">
+            <!-- Dynamic Injection of Team Forms -->
+        </div>
+
+        <!-- CALCULATE BUTTON -->
+        <div class="text-center pt-4">
+            <button onclick="calculateSuccess()" class="w-full sm:w-auto bg-gradient-to-r from-purple-600 via-indigo-600 to-pink-500 hover:opacity-95 text-white font-black text-lg sm:text-xl px-12 py-4 rounded-2xl shadow-glow transition transform hover:-translate-y-1 active:scale-95 flex items-center justify-center gap-3 mx-auto">
+                <i data-lucide="calculator" class="w-6 h-6"></i>
+                Порахувати успішність бізнесів
+            </button>
+        </div>
+
+        <!-- RESULTS SECTION -->
+        <section id="resultsSection" class="hidden space-y-6 pt-6">
+            <div class="text-center space-y-1">
+                <h2 class="heading-font text-3xl font-extrabold text-slate-900 flex items-center justify-center gap-2">
+                    <i data-lucide="trophy" class="w-8 h-8 text-yellow-500"></i>
+                    Результати та Переможці!
+                </h2>
+                <p class="text-slate-600 text-sm">Хто виявився найуспішнішим підприємцем?</p>
+            </div>
+
+            <!-- LEADERBOARD CARDS -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6" id="leaderboardCards">
+                <!-- Injected via JS -->
+            </div>
+
+            <!-- COMPARISON DETAILED TABLE -->
+            <div class="glass-card rounded-3xl p-4 sm:p-6 shadow-soft overflow-x-auto">
+                <h3 class="heading-font text-xl font-bold mb-4 text-slate-800 flex items-center gap-2">
+                    <i data-lucide="bar-chart-3" class="w-5 h-5 text-indigo-600"></i>
+                    Детальна зведена таблиця
+                </h3>
+                <table class="w-full text-left border-collapse min-w-[700px]">
+                    <thead>
+                        <tr class="border-b-2 border-slate-200 text-slate-600 text-xs sm:text-sm uppercase tracking-wider">
+                            <th class="py-3 px-3">Команда</th>
+                            <th class="py-3 px-3">Чистий Прибуток 💵</th>
+                            <th class="py-3 px-3">Зростання Капіталу 📊</th>
+                            <th class="py-3 px-3">Залишок 🏦</th>
+                            <th class="py-3 px-3">Замовлення 📦</th>
+                            <th class="py-3 px-3">Перевірка Каси 🔍</th>
+                            <th class="py-3 px-3">Ефективність 🚀</th>
+                        </tr>
+                    </thead>
+                    <tbody id="detailedTableBody" class="divide-y divide-slate-100 text-sm font-medium">
+                        <!-- Injected via JS -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+    </div>
+
+    <script>
+        let currentTeamCount = 3;
+
+        const defaultTeams = [
+            { id: 1, name: '🏢 Команда 1 (Альфа)' },
+            { id: 2, name: '🏢 Команда 2 (Бета)' },
+            { id: 3, name: '🏢 Команда 3 (Гамма)' },
+            { id: 4, name: '🏢 Команда 4 (Дельта)' }
+        ];
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderForms();
+            lucide.createIcons();
+        });
+
+        function changeTeamCount(count) {
+            currentTeamCount = parseInt(count);
+            renderForms();
+            lucide.createIcons();
+        }
+
+        function renderForms() {
+            const container = document.getElementById('teamsContainer');
+            let html = '';
+
+            for (let i = 1; i <= currentTeamCount; i++) {
+                html += `
+                    <div class="glass-card rounded-3xl p-5 shadow-soft border-2 border-purple-200 hover:border-purple-400 transition flex flex-col justify-between">
+                        <div>
+                            <!-- Header -->
+                            <div class="flex items-center gap-2 mb-4 pb-2 border-b border-purple-100">
+                                <span class="w-8 h-8 rounded-full bg-purple-600 text-white font-black flex items-center justify-center text-sm shadow">
+                                    ${i}
+                                </span>
+                                <input type="text" id="name_${i}" value="${defaultTeams[i-1]?.name || 'Команда ' + i}" 
+                                    class="font-bold text-slate-800 text-base sm:text-lg bg-transparent border-b border-dashed border-slate-300 focus:border-purple-600 focus:outline-none w-full">
+                            </div>
+
+                            <!-- Inputs -->
+                            <div class="space-y-3 text-xs sm:text-sm">
+                                <div>
+                                    <label class="block text-slate-600 font-semibold mb-1">💰 Стартові гроші (перші 1000):</label>
+                                    <input type="number" id="start_${i}" value="1000" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-1.5 font-bold text-slate-800 focus:ring-2 focus:ring-purple-400 focus:outline-none">
+                                </div>
+
+                                <div>
+                                    <label class="block text-slate-600 font-semibold mb-1">🤝 Додаткові гроші (від інвесторів):</label>
+                                    <input type="number" id="investorIn_${i}" placeholder="0" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-1.5 font-semibold text-slate-800 focus:ring-2 focus:ring-purple-400 focus:outline-none">
+                                </div>
+
+                                <div>
+                                    <label class="block text-slate-600 font-semibold mb-1">📈 Заробіток (за 3 раунди):</label>
+                                    <input type="number" id="revenue_${i}" placeholder="наприклад: 800" class="w-full bg-emerald-50/50 border border-emerald-200 rounded-xl px-3 py-1.5 font-bold text-emerald-800 focus:ring-2 focus:ring-emerald-400 focus:outline-none">
+                                </div>
+
+                                <div>
+                                    <label class="block text-slate-600 font-semibold mb-1">💸 Витрати (запуск, реклама, інше):</label>
+                                    <input type="number" id="expenses_${i}" placeholder="наприклад: 300" class="w-full bg-rose-50/50 border border-rose-200 rounded-xl px-3 py-1.5 font-bold text-rose-800 focus:ring-2 focus:ring-rose-400 focus:outline-none">
+                                </div>
+
+                                <div>
+                                    <label class="block text-slate-600 font-semibold mb-1">🔙 Повернення інвестору:</label>
+                                    <input type="number" id="investorBack_${i}" placeholder="0" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-1.5 font-semibold text-slate-800 focus:ring-2 focus:ring-purple-400 focus:outline-none">
+                                </div>
+
+                                <div>
+                                    <label class="block text-slate-600 font-semibold mb-1">📦 Виконані замовлення (шт):</label>
+                                    <input type="number" id="orders_${i}" placeholder="наприклад: 5" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-1.5 font-semibold text-slate-800 focus:ring-2 focus:ring-purple-400 focus:outline-none">
+                                </div>
+
+                                <div>
+                                    <label class="block text-slate-600 font-semibold mb-1">🏦 Гроші наприкінці гри (у касі):</label>
+                                    <input type="number" id="finalCash_${i}" placeholder="фактичний залишок" class="w-full bg-purple-50/50 border border-purple-200 rounded-xl px-3 py-1.5 font-bold text-purple-900 focus:ring-2 focus:ring-purple-400 focus:outline-none">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+            container.innerHTML = html;
+        }
+
+        function fillDemoData() {
+            // Team 1: Active Business (Invested & Earned Well)
+            document.getElementById('start_1').value = 1000;
+            document.getElementById('investorIn_1').value = 200;
+            document.getElementById('revenue_1').value = 1100;
+            document.getElementById('expenses_1').value = 450;
+            document.getElementById('investorBack_1').value = 220;
+            document.getElementById('orders_1').value = 8;
+            document.getElementById('finalCash_1').value = 1630; // 1000+200+1100-450-220 = 1630
+
+            // Team 2: Passive Saver (Did not invest/spend, high cash but zero action)
+            document.getElementById('start_2').value = 1000;
+            document.getElementById('investorIn_2').value = 0;
+            document.getElementById('revenue_2').value = 100;
+            document.getElementById('expenses_2').value = 0;
+            document.getElementById('investorBack_2').value = 0;
+            document.getElementById('orders_2').value = 1;
+            document.getElementById('finalCash_2').value = 1100;
+
+            if (currentTeamCount >= 3) {
+                // Team 3: Unbalanced / Loss
+                document.getElementById('start_3').value = 1000;
+                document.getElementById('investorIn_3').value = 300;
+                document.getElementById('revenue_3').value = 400;
+                document.getElementById('expenses_3').value = 650;
+                document.getElementById('investorBack_3').value = 350;
+                document.getElementById('orders_3').value = 3;
+                document.getElementById('finalCash_3').value = 700;
+            }
+
+            calculateSuccess();
+        }
+
+        function calculateSuccess() {
+            const results = [];
+
+            for (let i = 1; i <= currentTeamCount; i++) {
+                const name = document.getElementById(`name_${i}`).value || `Команда ${i}`;
+                const start = parseFloat(document.getElementById(`start_${i}`).value) || 0;
+                const investorIn = parseFloat(document.getElementById(`investorIn_${i}`).value) || 0;
+                const revenue = parseFloat(document.getElementById(`revenue_${i}`).value) || 0;
+                const expenses = parseFloat(document.getElementById(`expenses_${i}`).value) || 0;
+                const investorBack = parseFloat(document.getElementById(`investorBack_${i}`).value) || 0;
+                const orders = parseFloat(document.getElementById(`orders_${i}`).value) || 0;
+                const finalCash = parseFloat(document.getElementById(`finalCash_${i}`).value) || 0;
+
+                // 1. Чистий прибуток = Заробіток - Витрати - Повернення інвестору
+                const netProfit = revenue - expenses - investorBack;
+
+                // 2. Очікуваний залишок у касі (Розрахунковий)
+                const expectedCash = start + investorIn + revenue - expenses - investorBack;
+
+                // 3. Зростання капіталу (%) = ((Фактичні гроші - Стартові) / Стартові) * 100%
+                const capitalGrowthPercent = start > 0 ? ((finalCash - start) / start) * 100 : 0;
+
+                // 4. Перевірка збігу каси (Audit)
+                const cashDiscrepancy = Math.abs(finalCash - expectedCash);
+                const cashAuditOK = cashDiscrepancy <= 10; // допускається дрібна похибка 10 логікоїнів
+
+                // 5. Обчислення бізнес-ефективності (0 - 100 балів)
+                let efficiencyScore = 0;
+
+                // А. Прибутковість (до 40 б)
+                if (netProfit > 0) {
+                    efficiencyScore += Math.min(40, (netProfit / (start || 1000)) * 50);
+                } else {
+                    efficiencyScore += Math.max(-15, netProfit / 20);
+                }
+
+                // Б. Активність / Замовлення (до 30 б)
+                efficiencyScore += Math.min(30, orders * 4);
+
+                // В. Інвестиції у розвиток / Витрати на бізнес (до 20 б)
+                // Якщо витрати = 0, команда нічого не купувала (пасивний бізнес)
+                if (expenses === 0) {
+                    efficiencyScore += 2; // Штраф за відсутність дій
+                } else {
+                    efficiencyScore += Math.min(20, (expenses / (start || 1000)) * 30);
+                }
+
+                // Г. Перевірка каси бонус (10 б)
+                if (cashAuditOK) {
+                    efficiencyScore += 10;
+                }
+
+                efficiencyScore = Math.min(100, Math.max(5, Math.round(efficiencyScore)));
+
+                // Формуємо статус та пораду
+                let status = { text: '', color: '', icon: '', advice: '' };
+
+                if (expenses === 0 && orders <= 1) {
+                    status = {
+                        text: '🐌 Пасивне накопичення',
+                        badgeClass: 'bg-amber-100 text-amber-800 border-amber-300',
+                        icon: 'lock',
+                        advice: 'Гроші збережено, але бізнес майже не діяв! Ви не витрачали на рекламу та замовлення.'
+                    };
+                } else if (netProfit < 0) {
+                    status = {
+                        text: '📉 Збитковий бізнес',
+                        badgeClass: 'bg-rose-100 text-rose-800 border-rose-300',
+                        icon: 'trending-down',
+                        advice: 'Витрати та повернення інвестору перевищили дохід. Варто переглянути ціни або витрати.'
+                    };
+                } else if (efficiencyScore >= 75) {
+                    status = {
+                        text: '🚀 Стрімкий розвиток!',
+                        badgeClass: 'bg-emerald-100 text-emerald-800 border-emerald-300',
+                        icon: 'rocket',
+                        advice: 'Чудовий результат! Ви активно працювали, виконували замовлення та примножили капітал.'
+                    };
+                } else {
+                    status = {
+                        text: '⚖️ Стабільна робота',
+                        badgeClass: 'bg-blue-100 text-blue-800 border-blue-300',
+                        icon: 'check-circle',
+                        advice: 'Бізнес працює в плюс, але є потенціал для більшої кількості замовлень та реклами!'
+                    };
+                }
+
+                results.push({
+                    name,
+                    start,
+                    investorIn,
+                    revenue,
+                    expenses,
+                    investorBack,
+                    orders,
+                    finalCash,
+                    expectedCash,
+                    netProfit,
+                    capitalGrowthPercent: capitalGrowthPercent.toFixed(1),
+                    cashAuditOK,
+                    cashDiscrepancy,
+                    efficiencyScore,
+                    status
+                });
+            }
+
+            // Сортуємо за Ефективністю
+            results.sort((a, b) => b.efficiencyScore - a.efficiencyScore);
+
+            renderLeaderboard(results);
+            renderDetailedTable(results);
+
+            const section = document.getElementById('resultsSection');
+            section.classList.remove('hidden');
+            section.scrollIntoView({ behavior: 'smooth' });
+
+            confetti({
+                particleCount: 120,
+                spread: 80,
+                origin: { y: 0.6 }
+            });
+
+            lucide.createIcons();
+        }
+
+        function renderLeaderboard(sorted) {
+            const container = document.getElementById('leaderboardCards');
+            const medals = [
+                { rank: 1, icon: '🥇', bg: 'from-yellow-100 to-amber-200 border-yellow-400', badge: 'bg-yellow-500 text-white' },
+                { rank: 2, icon: '🥈', bg: 'from-slate-100 to-slate-200 border-slate-400', badge: 'bg-slate-500 text-white' },
+                { rank: 3, icon: '🥉', bg: 'from-amber-50 to-orange-100 border-orange-300', badge: 'bg-amber-700 text-white' },
+                { rank: 4, icon: '🎗️', bg: 'from-purple-50 to-indigo-100 border-purple-200', badge: 'bg-purple-600 text-white' }
+            ];
+
+            container.innerHTML = sorted.map((item, idx) => {
+                const m = medals[idx] || medals[3];
+                return `
+                    <div class="glass-card bg-gradient-to-b ${m.bg} rounded-3xl p-5 shadow-soft relative overflow-hidden border-2 flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="px-3 py-1 rounded-full text-xs font-black tracking-wider uppercase ${m.badge}">
+                                    ${m.rank} МІСЦЕ
+                                </span>
+                                <span class="text-3xl">${m.icon}</span>
+                            </div>
+
+                            <h3 class="heading-font text-xl font-bold text-slate-900 mb-1">${item.name}</h3>
+
+                            <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl text-xs font-bold border mb-4 ${item.status.badgeClass}">
+                                ${item.status.text}
+                            </div>
+
+                            <!-- Score Meter -->
+                            <div class="bg-white/80 p-3.5 rounded-2xl mb-4 shadow-sm border border-white">
+                                <div class="flex justify-between items-center mb-1">
+                                    <span class="text-xs font-bold text-slate-600">Ефективність 🚀:</span>
+                                    <span class="text-2xl font-black text-purple-700">${item.efficiencyScore}%</span>
+                                </div>
+                                <div class="w-full bg-slate-200 rounded-full h-3 overflow-hidden">
+                                    <div class="bg-gradient-to-r from-purple-600 to-pink-500 h-3 rounded-full transition-all duration-1000" style="width: ${item.efficiencyScore}%"></div>
+                                </div>
+                            </div>
+
+                            <!-- Stats Grid -->
+                            <div class="grid grid-cols-2 gap-2 text-xs mb-3">
+                                <div class="bg-white/70 p-2.5 rounded-xl">
+                                    <div class="text-slate-500">Чистий прибуток 💵:</div>
+                                    <div class="font-bold text-slate-800 text-sm">${item.netProfit} 🪙</div>
+                                </div>
+                                <div class="bg-white/70 p-2.5 rounded-xl">
+                                    <div class="text-slate-500">Зростання 📊:</div>
+                                    <div class="font-bold ${item.capitalGrowthPercent >= 0 ? 'text-emerald-600' : 'text-rose-600'} text-sm">${item.capitalGrowthPercent}%</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white/90 p-3 rounded-xl text-xs text-slate-700 border border-slate-200/60">
+                            <b>💡 Висновок:</b> ${item.status.advice}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function renderDetailedTable(results) {
+            const tbody = document.getElementById('detailedTableBody');
+            tbody.innerHTML = results.map(item => `
+                <tr class="hover:bg-slate-50/80 transition">
+                    <td class="py-3 px-3 font-bold text-slate-800">${item.name}</td>
+                    <td class="py-3 px-3 font-bold ${item.netProfit >= 0 ? 'text-emerald-600' : 'text-rose-600'}">
+                        ${item.netProfit > 0 ? '+' : ''}${item.netProfit} 🪙
+                    </td>
+                    <td class="py-3 px-3 font-semibold ${item.capitalGrowthPercent >= 0 ? 'text-emerald-600' : 'text-rose-600'}">
+                        ${item.capitalGrowthPercent}%
+                    </td>
+                    <td class="py-3 px-3 font-bold text-purple-900">${item.finalCash} 🪙</td>
+                    <td class="py-3 px-3 font-semibold text-slate-700">${item.orders} шт</td>
+                    <td class="py-3 px-3">
+                        ${item.cashAuditOK 
+                            ? `<span class="inline-flex items-center gap-1 text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded-lg text-xs font-bold">✓ Каса збігається</span>` 
+                            : `<span class="inline-flex items-center gap-1 text-rose-700 bg-rose-100 px-2 py-0.5 rounded-lg text-xs font-bold" title="Очікувалося: ${item.expectedCash} 🪙">⚠️ Помилка каси (${item.cashDiscrepancy} 🪙)</span>`}
+                    </td>
+                    <td class="py-3 px-3">
+                        <span class="inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-black bg-purple-100 text-purple-800">
+                            ${item.efficiencyScore}%
+                        </span>
+                    </td>
+                </tr>
+            `).join('');
+        }
+    </script>
+</body>
+</html>
